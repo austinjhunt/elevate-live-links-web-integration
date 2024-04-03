@@ -1,0 +1,64 @@
+## Austin Hunt 2/28/2024
+## elevate-programs-accordions.vm
+## File location in Cascade CMS: https://cofc.cascadecms.com/entity/open.act?id=f1ae9711ac1e002e44ad3ee6fc8869b8&type=format
+
+## Used when mainComponent with type "Elevate - Course Streams" is selected when editing Standard page.
+## This utility was built to integrate directly with the same Standard template already in use 
+## for the new design. It defines a macro that invokes displayElevateProgramsAccordions() PHP method
+## from the elevate-programs-accordions.php file to fetch and render Elevate Live Links data. 
+## The method requires two arguments:
+## 1. The URL to fetch the Elevate Live Links data from
+## 2. A JSON array of accordions to render, each containing the data for the accordion 
+
+## Content editor just needs to supply the Course Stream IDs or Codes (depending on chosen match method), 
+## data definition allows either. Each course stream will render as one accordion.
+
+#import("/formats/common/_common") 
+
+## Uncomment only for testing
+##elevateProgramAccordions($_XPathTool.selectSingleNode($contentRoot, "//mainComponent[1]/elevate-course-streams"))
+
+#macro (elevateProgramAccordions $comp)
+    ## JSONFIY to pass to PHP method argument
+    #set($accordions = [])
+    #foreach($accordion in $_XPathTool.selectNodes($comp, "accordion"))
+        #set($jsonifiedAccordion = $_SerializerTool.toJson($accordion, true))
+        #set($discard = $accordions.add($jsonifiedAccordion))
+    #end   
+    
+    <section class="accordions component"> 
+	    <h2 class="accordions__title font-h2">
+	        $_EscapeTool.xml($_XPathTool.selectSingleNode($comp, "headline").value)
+        </h2> 
+	    <hr /> 
+	    <div class="accordions__copy user-markup">
+	        $_EscapeTool.xml($_XPathTool.selectSingleNode($comp, "content").value)
+        </div> 
+        
+        #set ($elevateDataEnvironment = $_XPathTool.selectSingleNode($comp, "elevate-data-environment").value)##
+        #if ($elevateDataEnvironment == 'test')
+            #set ($elevateURL = "https://us-elevate-nonprod.elluciancloud.com/app/cocha")##
+        #else 
+            #set ($elevateURL = "https://us-elevate-prod.elluciancloud.com/app/cocha")##
+        #end 
+        
+        #set ( $subMsg = "This will display one accordion per Elevate course stream added; each accordion will contain a table of programs offered matching that course stream. Using Elevate environment: $elevateDataEnvironment" )
+        #dynamic(
+            'This Elevate - Course Streams component will be pulled in dynamically.',
+            $subMsg
+        )
+        ## handle the fetching and rendering of Elevate Data using PHP script (required, cannot use velocity)
+        <!--#passthrough 
+        <?php   
+            ini_set('display_errors', 1);
+            ini_set('display_startup_errors', 1);
+            error_reporting(E_ALL); 
+            require_once("$_commonServerPath/assets/php/views/elevate-programs-accordions.php");    
+            displayElevateProgramsAccordions(
+                '${elevateURL}/solar.qll_web_json.sections?serviceCode=ONLINE_REG',
+                '$accordions'
+            ); 
+        ?> 
+        #passthrough-->  
+    </section>
+#end
