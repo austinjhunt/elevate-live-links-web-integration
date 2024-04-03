@@ -9,6 +9,28 @@ Each program instance also has a set of class sections, with each class section 
 
 Note: I made sure to build this for mobile first, so it loads well on both mobile and desktop viewports.
 
+# Screenshots
+
+## Course stream accordions fully collapsed
+![Course stream accordions fully collapsed](screenshots/accordions-collapsed.png)
+
+## Expanded course stream accordion - program instance card grid
+![Expanded course stream accordion - program instance card grid](screenshots/accordion-expanded.png)
+
+## View Program Instance Details (Modal)
+![View Program Instance Details (Modal)](screenshots/detailsModal.png)
+
+## Program Instance Cart
+![Program Instance Cart](screenshots/cart.png)
+
+
+## Program Instance Cart - View Item Details
+![Program Instance Cart - View Item Details](screenshots/cartItemDetails.png)
+
+## Checking out via Ellucian Elevate
+![Checking out via Ellucian Elevate](screenshots/checkout.png)
+
+
 ## Run Locally 
 
 To run locally, the easiest thing to do is use VSCode's PHP Server extension. Once you have that extension installed, you'll also need to have PHP installed, and you should point that extension's PHP Config setting to the path of your installed PHP executable. 
