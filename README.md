@@ -38,3 +38,7 @@ To run locally, the easiest thing to do is use VSCode's PHP Server extension. On
 Then, you can right click anywhere inside of the [_test-elevate-programs-accordions.php](_test-elevate-programs-accordions.php) file and select PHP Server: Serve Project.
 
 If you are building a similar integration for another institution, you'll need to change the `$sectionsURL` around line 734 in [_test-elevate-programs-accordions.php](_test-elevate-programs-accordions.php), and you'll neeed to change the `ELEVATE_URLS` in [elllucian-elevate-shopping-cart.js]. You'll also want to change the `$elevateCourseStreams` array in [_test-elevate-programs-accordions.php](_test-elevate-programs-accordions.php)
+
+
+## Important note
+None of the information in this project is secret. There are no credentials involved with fetching this course data. 
